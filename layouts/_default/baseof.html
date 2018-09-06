@@ -21,7 +21,7 @@
     {{ if .Site.IsServer }}
       {{ $cssOpts := (dict "targetPath" "css/coder.css" "enableSourceMap" true ) }}
       {{ $styles := resources.Get "scss/coder.scss" | resources.ExecuteAsTemplate "style.coder.css" . | toCSS $cssOpts }}
-      <link rel="stylesheet" href="{{ .Site.BaseURL }}/css/coder.css" media="screen">
+      <link rel="stylesheet" href="{{ .Site.BaseURL }}css/coder.css" media="screen">
     {{ else }}
       {{ $cssOpts := (dict "targetPath" "css/coder.css" ) }}
       {{ $styles := resources.Get "scss/coder.scss" | resources.ExecuteAsTemplate "style.coder.css" . | toCSS $cssOpts | minify | fingerprint }}
@@ -32,7 +32,7 @@
       {{ if .Site.IsServer }}
         {{ $cssOpts := (dict "targetPath" "css/coder-rtl.css" "enableSourceMap" true ) }}
         {{ $styles := resources.Get "scss/coder-rtl.scss" | resources.ExecuteAsTemplate "style.coder-rtl.css" . | toCSS $cssOpts }}
-        <link rel="stylesheet" href="{{ .Site.BaseURL }}/css/coder.css" media="screen">
+        <link rel="stylesheet" href="{{ .Site.BaseURL }}css/coder.css" media="screen">
       {{ else }}
         {{ $cssOpts := (dict "targetPath" "css/coder-rtl.css" ) }}
         {{ $styles := resources.Get "scss/coder-rtl.scss" | resources.ExecuteAsTemplate "style.coder-rtl.css" . | toCSS $cssOpts | minify | fingerprint }}
