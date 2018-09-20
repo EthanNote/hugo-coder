@@ -1,7 +1,7 @@
 <section class="container post">
   <article>
     <header>
-      <link rel="stylesheet" href="https://ethannote.github.io/CTW/script/highlight/styles/github.css">
+      <link rel="stylesheet" href="https://ethannote.github.io/CTW/script/highlight/styles/dracula.css">
       <style>
         pre {
           position: relative;
@@ -10,15 +10,18 @@
           /*border: 1px solid #C3CCD0;
           background: #FFF;*/
           overflow: hidden;
+          background: #282a36;
         }
 
-        c {
+        c, ch {
           display: block;
           padding: 12px 24px;
+          padding-left: 1rem !important;    
           overflow-y: auto;
           /*font-weight: 300;
           font-family: Menlo, monospace;*/
-          font-size: 0.8em;
+          /*font-size: 0.8em;*/
+          font: normal 1em Consolas, Monaco, monospace;
         }
 
         color: #000;.has-numbering {
@@ -28,80 +31,88 @@
         .pre-numbering {
           position: absolute;
           top: 0;
-          left: -5px;
-          width: 20px;
+          left: 0;
+          width: 35px;
           padding: 12px 2px 30px 0;
           /*border-right: 1px solid #C3CCD0;*/
           border-radius: 3px 0 0 3px;
           /*background-color: #EEE;*/
           text-align: right;
-          font-family: Menlo, monospace;
-          font-size: 0.8em;
+          /*font-family: Menlo, monospace;
+          font-size: 0.8em;*/
+          font: normal 1em Consolas, Monaco, monospace;
+          color: gray;
           /*color: #AAA;*/
         }
       </style>
       <script src="https://ethannote.github.io/CTW/script/highlight/highlight.pack.js"></script>
       <script src="https://ethannote.github.io/CTW/script/jquery/jquery-3.3.1.min.js"></script>
       <script>
-        
-            
-          $(document).ready(function () {
-              $('pre c').each(function () {
-                var lines = $(this).text().split('\n').length - 1;
-                var $numbering = $('<ul/>').addClass('pre-numbering');
-                console.log($(this));
-                console.log("ready");
-                console.log($(this).text().split('\n'));
-                $(this)
-                  .addClass('has-numbering')
-                  .parent()
-                  .append($numbering);
-                for (i = 1; i <= lines; i++) {
-                  $numbering.append($('<li/>').text(i));
-                }
-              });
-            // hljs.configure({useBR: true});
-            $('pre c').each(function (i, block) {
-              hljs.highlightBlock(block);
-            });
+
+        var format = function () {
+          var lines = $(this).text().split('\n').length;
+          var $numbering = $('<ul/>').addClass('pre-numbering');
+          console.log($(this));
+          console.log("ready");
+          console.log($(this).text().split('\n'));
+          $(this)
+            .addClass('has-numbering')
+            .parent()
+            .append($numbering);
+          for (i = 1; i <= lines; i++) {
+            $numbering.append($('<li/>').text(i));
+          }
+        }
+
+        $(document).ready(function () {
+          $('pre ch').each(function(){ this.innerText = this.innerHTML.trim(); console.log(this) });
+          $('pre ch').each(format);
+          $('pre c').each(function(){this.innerText=this.innerText.trim()});
+          $('pre c').each(format);
+          // hljs.configure({useBR: true});
+          $('pre c').each(function (i, block) {
+            hljs.highlightBlock(block);
           });
+          $('pre ch').each(function (i, block) {
+            hljs.highlightBlock(block);
+          });
+        });
       </script>
-      <h1 class="title">{{ .Title }}</h1> 
+      <h1 class="title">{{ .Title }}</h1>
       <h2 class="date">{{ .Date.Format "January 2, 2006" }}</h2>
 
-      
-        <script type="text/javascript" async
-          src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full">
-          MathJax.Hub.Config({
-            tex2jax: {
-              inlineMath: [['$','$']],
-              displayMath: [['$$','$$']],
-              processEscapes: true,
-              processEnvironments: true,
-              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-              TeX: { extensions: ["AMSmath.js", "AMSsymbols.js"] }
-            }
-          });
-          MathJax.Hub.Queue(function() {
-            // Fix <code> tags after MathJax finishes running. This is a
-            // hack to overcome a shortcoming of Markdown. Discussion at
-            // https://github.com/mojombo/jekyll/issues/199
-            var all = MathJax.Hub.getAllJax(), i;
-            for(i = 0; i < all.length; i += 1) {
-                all[i].SourceElement().parentNode.className += ' has-jax';
-            }
-          });
-          </script>
-      
+
+      <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full">
+        MathJax.Hub.Config({
+          tex2jax: {
+            inlineMath: [['$', '$']],
+            displayMath: [['$$', '$$']],
+            processEscapes: true,
+            processEnvironments: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            TeX: { extensions: ["AMSmath.js", "AMSsymbols.js"] }
+          }
+        });
+        MathJax.Hub.Queue(function () {
+          // Fix <code> tags after MathJax finishes running. This is a
+          // hack to overcome a shortcoming of Markdown. Discussion at
+          // https://github.com/mojombo/jekyll/issues/199
+          var all = MathJax.Hub.getAllJax(), i;
+          for (i = 0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+        });
+      </script>
+
     </header>
 
     {{ .Content }}
   </article>
 
-  <br/>
+  <br />
 
   {{ if and (not (eq .Site.DisqusShortname "" )) (eq (.Params.disable_comments | default false) false)}}
-      {{ template "_internal/disqus.html" . }}
+  {{ template "_internal/disqus.html" . }}
   {{ end }}
-  
+
 </section>
